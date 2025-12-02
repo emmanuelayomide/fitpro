@@ -1,0 +1,1246 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/x-icon" href="assets/img/byd-logo.png">
+  <title>BYD Annual End-of-Year Global Raffle Draw Giveaway</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- External stylesheet (optional) -->
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <style>
+    /* ========= DESIGN TOKENS / CSS VARIABLES ========= */
+    :root {
+      --color-bg: #020617;
+      --color-bg-soft: #050814;
+      --color-bg-hero: #020617;
+      --color-border-subtle: rgba(148, 163, 184, 0.35);
+      --color-border-strong: rgba(248, 250, 252, 0.28);
+      --color-text-main: #f9fafb;
+      --color-text-muted: #9ca3af;
+      --color-text-soft: #cbd5f5;
+      --color-accent-pink: #e11d48;
+      --color-accent-orange: #f97316;
+      --color-accent-green: #22c55e;
+
+      --radius-card: 20px;
+      --radius-lg: 24px;
+
+      --shadow-card: 0 22px 55px rgba(0, 0, 0, 0.7);
+      --shadow-card-strong: 0 26px 65px rgba(0, 0, 0, 0.85);
+    }
+
+    /* ========= BASE RESET ========= */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--color-text-main);
+      background: radial-gradient(circle at top, #101727 0%, #050814 45%, #02030a 100%);
+      line-height: 1.6;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    /* Keyboard focus styles */
+    a:focus-visible,
+    button:focus-visible {
+      outline: 2px solid var(--color-accent-orange);
+      outline-offset: 3px;
+    }
+
+    /* ========= LOADING SCREEN (SPLASH) ========= */
+    #page-loader {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at top, #020617 0%, #000000 70%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+
+    #page-loader.is-hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .loader-inner {
+      text-align: center;
+      padding: 24px 30px;
+      border-radius: 18px;
+      background: rgba(15, 23, 42, 0.98);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      box-shadow: 0 26px 70px rgba(0, 0, 0, 0.8);
+      max-width: 260px;
+    }
+
+    .loader-logo {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px 18px;
+      border-radius: 999px;
+      background: #ff0000;
+      color: #ffffff;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      font-size: 12px;
+      margin-bottom: 16px;
+    }
+
+    .loader-bar {
+      position: relative;
+      width: 100%;
+      height: 4px;
+      border-radius: 999px;
+      background: rgba(30, 64, 175, 0.6);
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+
+    .loader-bar-fill {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, var(--color-accent-pink), var(--color-accent-orange));
+      transform-origin: left;
+      animation: loaderCharge 1.4s ease-in-out infinite;
+    }
+
+    .loader-text {
+      font-size: 11px;
+      color: var(--color-text-soft);
+      opacity: 0.9;
+    }
+
+    @keyframes loaderCharge {
+      0%   { transform: scaleX(0.08); opacity: 0.4; }
+      50%  { transform: scaleX(1);    opacity: 1;   }
+      100% { transform: scaleX(0.4);  opacity: 0.7; }
+    }   
+
+    /* ========= TOP NAV / HEADER ========= */
+    header.site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(3, 6, 18, 0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+    }
+
+    .header-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 12px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      position: relative;
+    }
+
+    .brand-block {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-block img {
+      height: 34px;
+      width: auto;
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      font-size: 12px;
+      color: #e5e7eb;
+    }
+
+    .brand-text strong {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-size: 13px;
+    }
+
+    .header-nav a {
+      color: var(--color-text-soft);
+      opacity: 0.85;
+      position: relative;
+      transition: color 0.2s ease, opacity 0.2s ease;
+    }
+
+    .header-nav a:hover {
+      opacity: 1;
+      color: #ffffff;
+    }
+
+    .header-nav a.is-active {
+      opacity: 1;
+      color: #ffffff;
+    }
+
+    .header-nav a.is-active::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -4px;
+      height: 2px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--color-accent-pink), var(--color-accent-orange));
+    }
+
+    .header-cta {
+      padding: 8px 18px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--color-accent-pink), var(--color-accent-orange));
+      font-size: 12px;
+      font-weight: 600;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      border: none;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: filter 0.2s ease, transform 0.2s ease;
+    }
+
+    .header-cta:hover {
+      filter: brightness(1.08);
+      transform: translateY(-1px);
+    }
+
+    /* ========= MOBILE MENU TOGGLE ========= */
+    .menu-toggle {
+      display: none; /* shown only on small screens via media query */
+      height: 34px;
+      width: 34px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: rgba(15, 23, 42, 0.85);
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .menu-toggle span {
+      display: block;
+      width: 16px;
+      height: 2px;
+      border-radius: 999px;
+      background: #e5e7eb;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    .menu-toggle span + span {
+      margin-top: 3px;
+    }
+
+    .menu-toggle.is-open span:nth-child(1) {
+      transform: translateY(5px) rotate(45deg);
+    }
+
+    .menu-toggle.is-open span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .menu-toggle.is-open span:nth-child(3) {
+      transform: translateY(-5px) rotate(-45deg);
+    }
+
+    /* ========= GENERIC SECTION WRAPPER ========= */
+    main {
+      display: block;
+    }
+
+    .section {
+      padding: 80px 20px;
+    }
+
+    .section-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-size: clamp(22px, 2.4vw, 28px);
+      margin-bottom: 10px;
+      color: var(--color-text-main);
+    }
+
+    .section-lead {
+      font-size: 14px;
+      max-width: 640px;
+      color: var(--color-text-soft);
+      opacity: 0.9;
+    }
+
+    /* ========= HERO SECTION (EARTH BACKGROUND + GLIDING CONTENT) ========= */
+    .hero {
+      padding: 80px 20px 90px;
+      position: relative;
+      overflow: hidden;
+      color: #ffffff;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.25) 40%, rgba(0,0,0,0.95) 100%),
+        url("assets/img/earth-bg.png") center center / cover no-repeat fixed;
+    }
+
+    .hero-inner {
+      position: relative;
+      max-width: 1120px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: 34px;
+      align-items: center;
+      z-index: 1;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(248, 250, 252, 0.08);
+      color: #e5e7eb;
+      font-size: 11px;
+      margin-bottom: 12px;
+    }
+
+    .hero-badge span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 16px;
+      width: 16px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--color-accent-green), #a3e635);
+      font-size: 11px;
+      font-weight: 700;
+      color: #022c22;
+    }
+
+    .hero-title {
+      font-size: clamp(24px, 3vw, 32px);
+      line-height: 1.2;
+      margin-bottom: 10px;
+    }
+
+    .hero-highlight {
+      color: var(--color-accent-orange);
+      font-weight: 700;
+    }
+
+    .hero-subtitle {
+      font-size: 14px;
+      color: var(--color-text-soft);
+      max-width: 540px;
+      margin-bottom: 18px;
+    }
+
+    .hero-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      margin-bottom: 24px;
+      font-size: 12px;
+    }
+
+    .hero-stat {
+      padding-right: 16px;
+      border-right: 1px solid rgba(148, 163, 184, 0.5);
+    }
+
+    .hero-stat:last-child {
+      border-right: none;
+    }
+
+    .hero-stat strong {
+      display: block;
+      font-size: 16px;
+      color: var(--color-text-main);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .btn-primary {
+      padding: 11px 24px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--color-accent-pink), var(--color-accent-orange));
+      border: none;
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: #fff;
+      cursor: pointer;
+      transition: filter 0.2s ease, transform 0.2s ease;
+    }
+
+    .btn-primary:hover {
+      filter: brightness(1.07);
+      transform: translateY(-1px);
+    }
+
+    .btn-ghost {
+      padding: 10px 20px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: transparent;
+      font-size: 12px;
+      font-weight: 500;
+      color: #e5e7eb;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .btn-ghost:hover {
+      background: rgba(15, 23, 42, 0.85);
+      transform: translateY(-1px);
+    }
+
+    .hero-note {
+      margin-top: 10px;
+      font-size: 11px;
+      color: var(--color-text-muted);
+      max-width: 360px;
+    }
+
+    .hero-visual {
+      position: relative;
+    }
+
+    .hero-car-frame {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: 0 28px 80px rgba(0, 0, 0, 0.8);
+      border: 1px solid rgba(248, 250, 252, 0.16);
+      background: radial-gradient(circle at top, #1f2937 0%, var(--color-bg-hero) 55%);
+      transition: box-shadow 0.3s ease;
+    }
+
+    .hero-car-frame img {
+      width: 100%;
+      height: auto;
+    }
+
+    .hero-car-frame:hover {
+      box-shadow: var(--shadow-card-strong);
+    }
+
+    .hero-tag {
+      position: absolute;
+      bottom: 16px;
+      left: 16px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 11px;
+      background: rgba(15, 23, 42, 0.88);
+      color: #e5e7eb;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hero-tag span {
+      display: inline-block;
+      height: 6px;
+      width: 6px;
+      border-radius: 999px;
+      background: var(--color-accent-green);
+      box-shadow: 0 0 0 5px rgba(34, 197, 94, 0.3);
+    }
+
+    /* gentle gliding motion for hero elements */
+    .hero-motion-left {
+      animation: heroFloatLeft 22s ease-in-out infinite alternate;
+    }
+
+    .hero-motion-right {
+      animation: heroFloatRight 26s ease-in-out infinite alternate;
+    }
+
+    @keyframes heroFloatLeft {
+      0%   { transform: translateX(0); }
+      50%  { transform: translateX(-10px); }
+      100% { transform: translateX(0); }
+    }
+
+    @keyframes heroFloatRight {
+      0%   { transform: translateX(0); }
+      50%  { transform: translateX(10px); }
+      100% { transform: translateX(0); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero-motion-left,
+      .hero-motion-right {
+        animation: none;
+      }
+    }
+
+    /* ========= TICKETS SECTION ========= */
+    .tickets-section {
+      background: var(--color-bg);
+      border-top: 1px solid rgba(15, 23, 42, 0.9);
+      border-bottom: 1px solid rgba(15, 23, 42, 0.9);
+    }
+
+    .tickets-grid {
+      margin-top: 30px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 22px;
+    }
+
+    .ticket-card {
+      background: radial-gradient(circle at top, #0f172a 0%, var(--color-bg) 65%);
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow-card);
+      border: 1px solid var(--color-border-subtle);
+      padding: 16px 16px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+
+    .ticket-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-card-strong);
+      border-color: var(--color-border-strong);
+    }
+
+    .ticket-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      color: #e5e7eb;
+    }
+
+    .ticket-tier-name {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .ticket-price {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--color-accent-orange);
+    }
+
+    .ticket-image {
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid var(--color-border-subtle);
+    }
+
+    .ticket-card-body {
+      font-size: 13px;
+      color: #c7d2fe;
+      opacity: 0.95;
+    }
+
+    .ticket-meta {
+      margin-top: 6px;
+      font-size: 11px;
+      color: var(--color-text-muted);
+    }
+
+    .ticket-cta-row {
+      margin-top: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      color: var(--color-text-muted);
+    }
+
+    .ticket-cta-row .small-label {
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: 10px;
+    }
+
+    .ticket-cta-row .ticket-button {
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--color-accent-pink), var(--color-accent-orange));
+      border: none;
+      font-size: 11px;
+      font-weight: 600;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: filter 0.2s ease, transform 0.2s ease;
+    }
+
+    .ticket-cta-row .ticket-button:hover {
+      filter: brightness(1.07);
+      transform: translateY(-1px);
+    }
+
+    /* ========= HOW IT WORKS / INFO SECTION ========= */
+    .info-section {
+      background: #030712;
+      border-top: 1px solid rgba(15, 23, 42, 0.9);
+      border-bottom: 1px solid rgba(15, 23, 42, 0.9);
+    }
+
+    .info-inner {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 24px;
+      margin-top: 26px;
+    }
+
+    .info-step h3 {
+      font-size: 15px;
+      margin-bottom: 6px;
+    }
+
+    .info-step p {
+      font-size: 13px;
+      color: var(--color-text-muted);
+    }
+
+    /* ========= WINNERS SECTION ========= */
+    .winners-section {
+      background: var(--color-bg-soft);
+      padding: 80px 20px 90px;
+    }
+
+    .winner-grid {
+      max-width: 1100px;
+      margin: 40px auto 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+    }
+
+    .winner-card {
+      background: #0b101c;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+
+    .winner-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 22px 55px rgba(0, 0, 0, 0.5);
+      border-color: rgba(255, 255, 255, 0.16);
+    }
+
+    .winner-card img {
+      width: 100%;
+      height: 230px;
+      object-fit: cover;
+    }
+
+    .winner-card figcaption {
+      padding: 16px 18px 18px;
+      font-size: 14px;
+      line-height: 1.5;
+      color: #eef2ff;
+      opacity: 0.9;
+    }
+
+    /* Fade-in on scroll */
+    .fade-in-on-scroll {
+      opacity: 0;
+      transition: opacity 0.85s ease-out;
+    }
+
+    .fade-in-on-scroll.is-visible {
+      opacity: 1;
+    }
+
+    /* ========= FOOTER ========= */
+    footer.site-footer {
+      background: var(--color-bg);
+      border-top: 1px solid rgba(15, 23, 42, 0.9);
+      padding: 22px 20px 26px;
+      font-size: 11px;
+      color: var(--color-text-muted);
+    }
+
+    .footer-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+      gap: 16px;
+      align-items: center;
+    }
+
+    .footer-links {
+      text-align: right;
+      font-size: 11px;
+    }
+
+    .footer-links a {
+      color: var(--color-text-soft);
+      opacity: 0.9;
+    }
+
+    .footer-links a:hover {
+      opacity: 1;
+    }
+
+    /* ========= RESPONSIVE ========= */
+    @media (max-width: 900px) {
+      .hero-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding-top: 70px;
+      }
+
+      .footer-inner {
+        grid-template-columns: 1fr;
+        text-align: left;
+      }
+
+      .footer-links {
+        text-align: left;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .header-inner {
+        gap: 10px;
+      }
+
+      .menu-toggle {
+        display: inline-flex;
+      }
+
+      .header-nav {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        left: 0;
+        background: rgba(3, 6, 18, 0.98);
+        flex-direction: column;
+        padding: 10px 18px 14px;
+        gap: 10px;
+        display: none;
+      }
+
+      .header-nav.is-open {
+        display: flex;
+      }
+
+      .header-cta {
+        width: 100%;
+        text-align: center;
+      }
+
+      .hero-title {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- =============== LOADING SCREEN =============== -->
+  <div id="page-loader" aria-hidden="true">
+    <div class="loader-inner">
+      <div class="loader-logo">BYD</div>
+      <div class="loader-bar">
+        <div class="loader-bar-fill"></div>
+      </div>
+      <p class="loader-text">Charging experience&hellip;</p>
+    </div>
+  </div>
+
+  <!-- =============== HEADER =============== -->
+  <header class="site-header" role="banner">
+    <div class="header-inner">
+      <div class="brand-block">
+        <img src="assets/img/byd-logo.png" alt="BYD Global">
+        <div class="brand-text">
+          <strong>BYD GROUPS</strong>
+          <span>Annual End-of-Year Global Raffle Draw Giveaway</span>
+        </div>
+      </div>
+
+      <!-- Mobile menu button -->
+      <button class="menu-toggle"
+              type="button"
+              aria-label="Toggle navigation"
+              aria-expanded="false"
+              aria-controls="primary-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="header-nav" id="primary-nav" aria-label="Primary">
+        <a href="#tickets" data-section="tickets">Ticket Tiers</a>
+        <a href="#info" data-section="info">How It Works</a>
+        <a href="#winners" data-section="winners">Real Winners</a>
+        <button class="header-cta"
+                type="button"
+                onclick="window.open('https://t.me/BYD_OfficialSupport','_blank')">
+          Get Tickets
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- =============== MAIN CONTENT =============== -->
+  <main>
+    <!-- HERO -->
+    <section class="hero" id="top">
+      <div class="hero-inner">
+        <div class="hero-copy hero-motion-left">
+          <div class="hero-badge">
+            <span></span>
+            Official BYD Groups Communication
+          </div>
+
+          <h1 class="hero-title">
+            BYD Annual End-of-Year <span class="hero-highlight">Global Raffle Draw Giveaway</span>
+          </h1>
+
+          <p class="hero-subtitle">
+            Join our prestigious Annual End-of-the-Year Raffle Draw Giveaway, an extraordinary celebration of
+            innovation in mobility and new-energy solutions. This global event unites our worldwide community
+            of supporters, partners, and participants in a shared vision for a sustainable future.
+          </p>
+
+          <div class="hero-stats">
+            <div class="hero-stat">
+              <strong>20,000+</strong>
+              BYD SEALION 7 units available worldwide
+            </div>
+            <div class="hero-stat">
+              <strong>Up to $20,000</strong>
+              in individual consolation cash prize opportunities
+            </div>
+            <div class="hero-stat">
+              <strong>Global</strong>
+              participation from multiple BYD markets
+            </div>
+          </div>
+
+          <div class="hero-actions">
+            <button class="btn-primary"
+                    type="button"
+                    onclick="window.open('https://t.me/BYD_OfficialSupport','_blank')">
+              Click Here for Tickets
+            </button>
+            <button class="btn-ghost"
+                    type="button"
+                    onclick="document.querySelector('#winners').scrollIntoView({behavior:'smooth'})">
+              View Real BYD Winners
+            </button>
+          </div>
+
+          <p class="hero-note">
+            Elevate your journey with BYD, where innovation meets opportunity.
+          </p>
+        </div>
+
+        <div class="hero-visual hero-motion-right fade-in-on-scroll">
+          <div class="hero-car-frame">
+            <img src="assets/img/sealion7.png" alt="BYD SEALION 7 vehicles">
+          </div>
+          <div class="hero-tag">
+            <span></span>
+            BYD SEALION 7 · Global raffle highlight model
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TICKETS -->
+    <section id="tickets" class="section tickets-section">
+      <div class="section-inner">
+        <h2 class="section-title">Raffle Ticket Tiers</h2>
+        <p class="section-lead">
+          Select your entry tier to participate in the official BYD global draw. All tiers grant access to the raffle,
+          with higher tiers offering increased visibility within the draw cycle.
+        </p>
+
+        <div class="tickets-grid">
+          <!-- STANDARD -->
+          <article class="ticket-card fade-in-on-scroll">
+            <div class="ticket-card-header">
+              <div class="ticket-tier-name">Standard</div>
+              <div class="ticket-price">$2,000</div>
+            </div>
+            <div class="ticket-image">
+              <img src="assets/img/ticket_standard.png"
+                   alt="BYD Standard Ticket"
+                   loading="lazy" decoding="async">
+            </div>
+            <div class="ticket-card-body">
+              Entry-level access to the official BYD Annual End-of-Year Global Raffle Draw Giveaway, with full
+              participation rights in the draw.
+              <div class="ticket-meta">
+                Ideal for first-time participants exploring the BYD raffle experience.
+              </div>
+            </div>
+            <div class="ticket-cta-row">
+              <span class="small-label">Secure Standard Entry</span>
+              <button class="ticket-button" type="button"
+                      onclick="window.open('https://t.me/BYD_OfficialSupport','_blank')">
+                Get Standard Ticket
+              </button>
+            </div>
+          </article>
+
+          <!-- PREMIUM -->
+          <article class="ticket-card fade-in-on-scroll">
+            <div class="ticket-card-header">
+              <div class="ticket-tier-name">Premium</div>
+              <div class="ticket-price">$5,000</div>
+            </div>
+            <div class="ticket-image">
+              <img src="assets/img/ticket_premium.png"
+                   alt="BYD Premium Ticket"
+                   loading="lazy" decoding="async">
+            </div>
+            <div class="ticket-card-body">
+              Enhanced tier with elevated recognition within the raffle pool, plus premium participation status in the
+              BYD draw cycle.
+              <div class="ticket-meta">
+                Designed for participants seeking a stronger presence and higher exposure within the draw.
+              </div>
+            </div>
+            <div class="ticket-cta-row">
+              <span class="small-label">Secure Premium Entry</span>
+              <button class="ticket-button" type="button"
+                      onclick="window.open('https://t.me/BYD_OfficialSupport','_blank')">
+                Get Premium Ticket
+              </button>
+            </div>
+          </article>
+
+          <!-- ELITE -->
+          <article class="ticket-card fade-in-on-scroll">
+            <div class="ticket-card-header">
+              <div class="ticket-tier-name">Elite</div>
+              <div class="ticket-price">$10,000</div>
+            </div>
+            <div class="ticket-image">
+              <img src="assets/img/ticket_elite.png"
+                   alt="BYD Elite Ticket"
+                   loading="lazy" decoding="async">
+            </div>
+            <div class="ticket-card-body">
+              Top-tier placement and maximum visibility within the BYD raffle draw cycle, reflecting the highest level
+              of participation.
+              <div class="ticket-meta">
+                Reserved for participants seeking the most elevated entry status within the global draw.
+              </div>
+            </div>
+            <div class="ticket-cta-row">
+              <span class="small-label">Secure Elite Entry</span>
+              <button class="ticket-button" type="button"
+                      onclick="window.open('https://t.me/BYD_OfficialSupport','_blank')">
+                Get Elite Ticket
+              </button>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section id="info" class="section info-section">
+      <div class="section-inner">
+        <h2 class="section-title">How the Global Raffle Works</h2>
+        <p class="section-lead">
+          A simple, transparent structure designed to connect participants across markets with BYD’s new-energy vision.
+        </p>
+
+        <div class="info-inner">
+          <div class="info-step">
+            <h3>1. Choose your ticket tier</h3>
+            <p>
+              Select Standard, Premium or Elite depending on the level of participation and visibility you prefer in
+              the global draw cycle.
+            </p>
+          </div>
+
+          <div class="info-step">
+            <h3>2. Confirm your entry</h3>
+            <p>
+              Secure your entry through the official BYD communication channels. Each validated entry receives a unique
+              raffle reference.
+            </p>
+          </div>
+
+          <div class="info-step">
+            <h3>3. Global draw and announcement</h3>
+            <p>
+              Eligible entries are pooled for the official Annual End-of-Year draw. Successful participants are notified
+              directly and through authorised BYD channels.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WINNERS -->
+    <section id="winners" class="section winners-section">
+      <div class="section-inner">
+        <h2 class="section-title">Real BYD Owners. Real Stories.</h2>
+        <p class="section-lead">
+          Around the world, drivers are taking delivery of their BYD vehicles with pride. The BYD Annual
+          End-of-Year Global Raffle connects you to this growing community of new-energy pioneers.
+        </p>
+
+        <div class="winner-grid">
+          <!-- 15 winner cards -->
+          <figure class="winner-card fade-in-on-scroll">
+            <img src="assets/img/winner1.png"
+                 alt="Happy BYD customer receiving keys"
+                 loading="lazy" decoding="async">
+            <figcaption>Keys handed over at an official BYD hand-over ceremony.</figcaption>
+          </figure>
+
+          <figure class="winner-card fade-in-on-scroll">
+            <img src="assets/img/winner2.png"
+                 alt="Customer celebrating with bouquet and BYD vehicle"
+                 loading="lazy" decoding="async">
+            <figcaption>New BYD owner celebrating delivery day with family and friends.</figcaption>
+          </figure>
+
+          <figure class="winner-card fade-in-on-scroll">
+            <img src="assets/img/winner3.png"
+                 alt="Two people standing next to BYD car outside dealership"
+                 loading="lazy" decoding="async">
+            <figcaption>Another BYD delivery at an authorised retailer.</figcaption>
+          </figure>
+
+          <figure class="winner-card fade-in-on-scroll">
+            <img src="assets/img/winner4.png"
+                 alt="BYD car with red bow and smiling couple"
+                 loading="lazy" decoding="async">
+            <figcaption>Delivery day: a brand-new BYD finished with a celebration bow.</figcaption>
+          </figure>
+
+          <figure class="winner-card fade-in-on-scroll">
+            <img src="assets/img/winner5.png"
+                 alt="Smiling BYD customer in showroom"
+                 loading="lazy" decoding="async">
+            <figcaption>Showroom delivery, photos and lifetime memories.</figcaption>
+          </figure>
+
+          <figure class="winner-card fade-in-on-scroll">
+            <img src="assets/img/winner6.png"
+                 alt="Family standing with new BYD car and red bow"
+                 loading="lazy" decoding="async">
+            <figcaption>Families around the world choosing BYD for their next generation of driving.</figcaption>
+          </figure>
+
+          <figure class="winner-card fade-in-on-scroll">
+            <img src="assets/img/winner7.png"
+                 alt="Customers posing in BYD showroom"
+                 loading="lazy" decoding="async">
+            <figcaption>BYD handovers in modern showrooms across multiple markets.</figcaption>
+          </figure>
+
+          <figure class="winner-card fade-in-on-scroll">
+            <img src="assets/img/winner8.png"
+                 alt="Customer and BYD representative with new car"
+                 loading="lazy" decoding="async">
+            <figcaption>Smiles all round as customers collect their keys.</figcaption>
+          </figure>
+
+          <figure class="winner-card fade-in-on-scroll">
+            <img src="assets/img/winner9.png"
+                 alt="Customer standing beside BYD vehicle outdoors"
+                 loading="lazy" decoding="async">
+            <figcaption>Outdoor delivery moment with a fully charged BYD EV.</figcaption>
+          </figure>
+
+          <figure class="winner-card fade-in-on-scroll">
+            <img src="assets/img/winner10.png"
+                 alt="Group photo with BYD vehicles"
+                 loading="lazy" decoding="async">
+            <figcaption>Group deliveries and fleet handovers in key BYD locations.</figcaption>
+          </figure>
+
+          <figure class="winner-card fade-in-on-scroll">
+            <img src="assets/img/winner11.png"
+                 alt="Customer and family in front of BYD with bow"
+                 loading="lazy" decoding="async">
+            <figcaption>Families celebrating a new electric chapter with BYD.</figcaption>
+          </figure>
+
+          <figure class="winner-card fade-in-on-scroll">
+            <img src="assets/img/winner12.png"
+                 alt="Customer shaking hands in BYD handover area"
+                 loading="lazy" decoding="async">
+            <figcaption>Handshake moments as customers complete their BYD purchase.</figcaption>
+          </figure>
+
+          <figure class="winner-card fade-in-on-scroll">
+            <img src="assets/img/winner13.png"
+                 alt="Customer holding key next to BYD car"
+                 loading="lazy" decoding="async">
+            <figcaption>Keys in hand and ready to drive away in a new BYD.</figcaption>
+          </figure>
+
+          <figure class="winner-card fade-in-on-scroll">
+            <img src="assets/img/winner14.png"
+                 alt="Customer receiving flowers and BYD car"
+                 loading="lazy" decoding="async">
+            <figcaption>Special handovers with flowers, photos and BYD teams.</figcaption>
+          </figure>
+
+          <figure class="winner-card fade-in-on-scroll">
+            <img src="assets/img/winner15.png"
+                 alt="Customer posing proudly with BYD car"
+                 loading="lazy" decoding="async">
+            <figcaption>Real BYD owners, real electric journeys around the world.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- =============== FOOTER =============== -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <p>
+          This communication is part of the BYD Annual End-of-Year Global Raffle Draw Giveaway initiative.
+          Participation is subject to applicable terms, conditions and regional eligibility requirements.
+        </p>
+        <p style="margin-top:6px;">
+          Copyright &copy; 1995–2022 BYD Company Ltd. All rights reserved.
+        </p>
+      </div>
+      <div class="footer-links">
+        <p>
+          For ticket or raffle-related enquiries, contact:
+          <br>
+          <a href="mailto:support@bydgroups.com">support@bydgroups.com</a>
+        </p>
+        <p style="margin-top:6px;">
+          To stop receiving communications of this nature, you may
+          <a href="#">unsubscribe here</a>.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- =============== SCRIPTS =============== -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      /* Fade-in on scroll */
+      const fadeItems = document.querySelectorAll('.fade-in-on-scroll');
+
+      const fadeObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            fadeObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.2 });
+
+      fadeItems.forEach(item => fadeObserver.observe(item));
+
+      /* Scroll-spy for header nav */
+      const navLinks = document.querySelectorAll('.header-nav a[data-section]');
+      const sections = Array.from(navLinks)
+        .map(link => document.getElementById(link.dataset.section))
+        .filter(Boolean);
+
+      const spyObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            navLinks.forEach(link => {
+              link.classList.toggle(
+                'is-active',
+                link.dataset.section === entry.target.id
+              );
+            });
+          }
+        });
+      }, { threshold: 0.4 });
+
+      sections.forEach(section => spyObserver.observe(section));
+
+      /* Mobile menu toggle */
+      const toggleBtn = document.querySelector('.menu-toggle');
+      const nav = document.getElementById('primary-nav');
+
+      if (toggleBtn && nav) {
+        toggleBtn.addEventListener('click', () => {
+          const isOpen = nav.classList.toggle('is-open');
+          toggleBtn.classList.toggle('is-open', isOpen);
+          toggleBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        });
+
+        nav.querySelectorAll('a').forEach(link => {
+          link.addEventListener('click', () => {
+            if (nav.classList.contains('is-open')) {
+              nav.classList.remove('is-open');
+              toggleBtn.classList.remove('is-open');
+              toggleBtn.setAttribute('aria-expanded', 'false');
+            }
+          });
+        });
+      }
+    });
+
+    /* Hide loader after page fully loaded */
+    window.addEventListener('load', () => {
+      const loader = document.getElementById('page-loader');
+      if (loader) loader.classList.add('is-hidden');
+    });
+  </script>
+</body>
+</html>
